@@ -1,0 +1,549 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday My Love 💕</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Dancing+Script:wght@400;700&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --rose: #ff4d7e;
+    --blush: #ffb3c6;
+    --deep: #8b0033;
+    --gold: #ffd700;
+    --cream: #fff5f8;
+    --dark: #1a0010;
+  }
+
+  body {
+    min-height: 100vh;
+    background: var(--dark);
+    font-family: 'Lato', sans-serif;
+    overflow-x: hidden;
+    cursor: crosshair;
+  }
+
+  /* ── Animated Sky Background ── */
+  #bg {
+    position: fixed; inset: 0; z-index: 0;
+    background: radial-gradient(ellipse at 20% 50%, #3d0030 0%, #1a0010 40%, #0d0020 100%);
+    overflow: hidden;
+  }
+
+  .star {
+    position: absolute;
+    border-radius: 50%;
+    background: white;
+    animation: twinkle var(--d) ease-in-out infinite alternate;
+  }
+  @keyframes twinkle {
+    from { opacity: 0.1; transform: scale(0.8); }
+    to   { opacity: 1;   transform: scale(1.2); }
+  }
+
+  /* ── Floating Hearts ── */
+  .heart-float {
+    position: fixed;
+    font-size: var(--s);
+    animation: floatUp var(--dur) ease-in forwards;
+    pointer-events: none;
+    z-index: 5;
+    filter: drop-shadow(0 0 6px rgba(255,77,126,0.8));
+  }
+  @keyframes floatUp {
+    0%   { transform: translateY(0) translateX(0) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(-120vh) translateX(var(--dx)) rotate(360deg); opacity: 0; }
+  }
+
+  /* ── Fireworks ── */
+  .spark {
+    position: fixed;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 999;
+    animation: spark var(--dur) ease-out forwards;
+  }
+  @keyframes spark {
+    0%   { transform: translate(0,0) scale(1); opacity: 1; }
+    100% { transform: translate(var(--tx), var(--ty)) scale(0); opacity: 0; }
+  }
+
+  /* ── Main Container ── */
+  #app {
+    position: relative; z-index: 10;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 20px 16px 60px;
+    gap: 28px;
+  }
+
+  /* ── Header ── */
+  .header {
+    text-align: center;
+    animation: fadeDown 1.2s ease both;
+  }
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-30px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .header h1 {
+    font-family: 'Dancing Script', cursive;
+    font-size: clamp(2.4rem, 8vw, 4.5rem);
+    color: var(--blush);
+    text-shadow: 0 0 30px rgba(255,77,126,0.7), 0 2px 4px rgba(0,0,0,0.5);
+    line-height: 1.1;
+  }
+  .header .subtitle {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    color: var(--gold);
+    font-size: clamp(0.85rem, 3vw, 1.1rem);
+    margin-top: 6px;
+    opacity: 0.9;
+    letter-spacing: 1px;
+  }
+
+  /* ── Countdown ── */
+  .countdown-box {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,77,126,0.3);
+    border-radius: 20px;
+    padding: 18px 28px;
+    text-align: center;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 0 30px rgba(255,77,126,0.15), inset 0 0 20px rgba(255,255,255,0.03);
+    animation: fadeDown 1.4s 0.2s ease both;
+    width: 100%;
+    max-width: 480px;
+  }
+  .countdown-label {
+    font-family: 'Playfair Display', serif;
+    color: var(--blush);
+    font-size: 0.85rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    opacity: 0.8;
+  }
+  .countdown-digits {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .digit-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+  .digit-num {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: clamp(1.8rem, 6vw, 2.8rem);
+    color: white;
+    background: linear-gradient(135deg, var(--rose), var(--deep));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    min-width: 56px;
+    text-align: center;
+    line-height: 1;
+    text-shadow: none;
+  }
+  .digit-lbl {
+    font-size: 0.65rem;
+    color: var(--blush);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    opacity: 0.7;
+  }
+  .separator {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    color: var(--rose);
+    align-self: flex-start;
+    padding-top: 4px;
+    opacity: 0.6;
+    animation: blink 1s infinite;
+  }
+  @keyframes blink { 0%,100%{opacity:0.6} 50%{opacity:0.1} }
+
+  .birthday-now {
+    font-family: 'Dancing Script', cursive;
+    font-size: clamp(1.4rem, 5vw, 2rem);
+    color: var(--gold);
+    text-shadow: 0 0 20px rgba(255,215,0,0.8);
+    animation: pulse 1s ease-in-out infinite alternate;
+  }
+  @keyframes pulse { from{transform:scale(1)} to{transform:scale(1.05)} }
+
+  /* ── Love Letter ── */
+  .letter-wrap {
+    width: 100%;
+    max-width: 520px;
+    animation: fadeDown 1.6s 0.4s ease both;
+  }
+  .letter-card {
+    background: linear-gradient(145deg, rgba(255,243,248,0.08), rgba(139,0,51,0.06));
+    border: 1px solid rgba(255,179,198,0.25);
+    border-radius: 20px;
+    padding: 28px 26px;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 8px 40px rgba(255,77,126,0.1), inset 0 0 40px rgba(255,255,255,0.02);
+    position: relative;
+    overflow: hidden;
+  }
+  .letter-card::before {
+    content: '💌';
+    position: absolute;
+    top: -10px; right: 16px;
+    font-size: 2rem;
+    animation: wobble 3s ease-in-out infinite;
+  }
+  @keyframes wobble {
+    0%,100%{transform:rotate(-10deg) scale(1)} 50%{transform:rotate(10deg) scale(1.1)}
+  }
+  .letter-to {
+    font-family: 'Dancing Script', cursive;
+    color: var(--blush);
+    font-size: 1.1rem;
+    margin-bottom: 14px;
+    opacity: 0.9;
+  }
+  .letter-body {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    color: rgba(255,255,255,0.88);
+    font-size: clamp(0.88rem, 2.5vw, 1rem);
+    line-height: 1.85;
+    min-height: 140px;
+  }
+  .cursor {
+    display: inline-block;
+    width: 2px;
+    height: 1em;
+    background: var(--rose);
+    vertical-align: text-bottom;
+    animation: blink 0.7s infinite;
+    margin-left: 1px;
+  }
+  .letter-sign {
+    font-family: 'Dancing Script', cursive;
+    color: var(--rose);
+    font-size: 1.3rem;
+    margin-top: 18px;
+    text-align: right;
+    opacity: 0;
+    transition: opacity 1s;
+  }
+
+  /* ── Music Button ── */
+  .music-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: linear-gradient(135deg, var(--rose), var(--deep));
+    border: none;
+    border-radius: 50px;
+    padding: 14px 28px;
+    color: white;
+    font-family: 'Lato', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 400;
+    letter-spacing: 1px;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(255,77,126,0.5);
+    transition: transform 0.2s, box-shadow 0.2s;
+    animation: fadeDown 1.8s 0.6s ease both;
+    position: relative;
+    overflow: hidden;
+  }
+  .music-btn:hover { transform: scale(1.04); box-shadow: 0 6px 30px rgba(255,77,126,0.7); }
+  .music-btn:active { transform: scale(0.97); }
+  .music-icon {
+    font-size: 1.3rem;
+    animation: spin 2s linear infinite paused;
+  }
+  .music-btn.playing .music-icon { animation-play-state: running; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .eq-bars {
+    display: flex; gap: 3px; align-items: flex-end; height: 18px;
+  }
+  .eq-bar {
+    width: 3px;
+    background: rgba(255,255,255,0.8);
+    border-radius: 2px;
+    animation: eq var(--d) ease-in-out infinite alternate paused;
+  }
+  .music-btn.playing .eq-bar { animation-play-state: running; }
+  @keyframes eq { from{height:3px} to{height:18px} }
+
+  /* ── Hint ── */
+  .hint {
+    font-size: 0.75rem;
+    color: rgba(255,179,198,0.5);
+    letter-spacing: 1px;
+    text-align: center;
+    animation: fadeDown 2s 0.8s ease both;
+  }
+
+  /* ── Mobile ── */
+  @media(max-width:480px){
+    .letter-card { padding: 20px 16px; }
+    .countdown-box { padding: 14px 16px; }
+  }
+</style>
+</head>
+<body>
+
+<div id="bg"></div>
+<canvas id="fw" style="position:fixed;inset:0;z-index:8;pointer-events:none;"></canvas>
+
+<div id="app">
+  <div class="header">
+    <h1>Happy Birthday<br>My Dear Affi 💕</h1>
+    <div class="subtitle">June 7 — The day heaven sent you to me</div>
+  </div>
+
+  <div class="countdown-box" id="cdBox">
+    <div class="countdown-label">✨ Counting down to your special day ✨</div>
+    <div class="countdown-digits" id="cdDigits"></div>
+  </div>
+
+  <div class="letter-wrap">
+    <div class="letter-card">
+      <div class="letter-to">My dearest love,</div>
+      <div class="letter-body" id="letterText"><span class="cursor"></span></div>
+      <div class="letter-sign" id="sign">— Forever Yours 💕</div>
+    </div>
+  </div>
+
+  <div class="hint">✨ Tap anywhere to launch fireworks ✨</div>
+</div>
+
+<audio id="audio" loop>
+  <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mp3">
+</audio>
+
+<script>
+// ── Stars ──
+const bg = document.getElementById('bg');
+for(let i=0;i<120;i++){
+  const s = document.createElement('div');
+  s.className = 'star';
+  const size = Math.random()*3+1;
+  s.style.cssText = `width:${size}px;height:${size}px;left:${Math.random()*100}%;top:${Math.random()*100}%;--d:${(Math.random()*3+1).toFixed(1)}s;animation-delay:${(Math.random()*3).toFixed(1)}s`;
+  bg.appendChild(s);
+}
+
+// ── Floating Hearts ──
+const HEARTS = ['💕','💖','💗','💓','🌹','✨','💞','🌸'];
+function spawnHeart(){
+  const h = document.createElement('div');
+  h.className = 'heart-float';
+  const dur = (Math.random()*5+5).toFixed(1);
+  const dx = (Math.random()*160-80).toFixed(0);
+  h.style.cssText = `left:${Math.random()*100}%;bottom:-40px;--s:${(Math.random()*1.5+0.8).toFixed(1)}rem;--dur:${dur}s;--dx:${dx}px`;
+  h.textContent = HEARTS[Math.floor(Math.random()*HEARTS.length)];
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(), dur*1000);
+}
+setInterval(spawnHeart, 700);
+
+// ── Countdown ──
+function countdown(){
+  const now = new Date();
+  const year = now.getMonth()>5||(now.getMonth()===5&&now.getDate()>=7) ? now.getFullYear()+1 : now.getFullYear();
+  const target = new Date(year, 5, 7, 0, 0, 0);
+  const diff = target - now;
+  const cdBox = document.getElementById('cdBox');
+  const cdDigits = document.getElementById('cdDigits');
+
+  if(diff<=0){
+    document.querySelector('.countdown-label').textContent='🎉 Today is the day! 🎉';
+    cdDigits.innerHTML='<div class="birthday-now">🎂 Happy Birthday, My Love! 🎂</div>';
+    for(let i=0;i<8;i++) setTimeout(()=>fireworkAt(Math.random()*window.innerWidth,Math.random()*window.innerHeight*0.6),i*300);
+    return;
+  }
+
+  const d = Math.floor(diff/86400000);
+  const h = Math.floor((diff%86400000)/3600000);
+  const m = Math.floor((diff%3600000)/60000);
+  const s = Math.floor((diff%60000)/1000);
+
+  const parts = [{v:d,l:'Days'},{v:h,l:'Hours'},{v:m,l:'Mins'},{v:s,l:'Secs'}];
+  cdDigits.innerHTML = parts.map((p,i)=>`
+    ${i>0?'<div class="separator">:</div>':''}
+    <div class="digit-block">
+      <div class="digit-num">${String(p.v).padStart(2,'0')}</div>
+      <div class="digit-lbl">${p.l}</div>
+    </div>
+  `).join('');
+}
+countdown();
+setInterval(countdown, 1000);
+
+// ── Love Letter Typing ──
+const letter = `Happy Birthday to the most special person in my life. Today isn't just your birthday, it's the day my world became more beautiful because you exist in it.
+
+I still remember the first time I saw you… it was on September 26 in Pulivendula. That moment is still so clear in my heart, like time paused just for me to notice how special you are. I didn't know then how important you would become, but today I know—you are everything to me.
+
+Affi, your smile brings me peace, your voice gives me comfort, and your presence makes my life feel complete. Every little moment with you means so much to me, and I truly cherish all the memories we share.
+
+On your special day, I wish you endless happiness, success in everything you dream of, and a life full of love and laughter. You deserve all the good things in this world, and I promise I will always try to be someone who stands by you, supports you, and makes you smile.
+
+Thank you for coming into my life and making it so beautiful.
+
+Happy Birthday once again, my love ❤️
+I love you more than words can ever express.
+
+Arshad ❤️`;
+
+let idx = 0;
+const letterEl = document.getElementById('letterText');
+const signEl = document.getElementById('sign');
+
+function type(){
+  if(idx < letter.length){
+    const char = letter[idx];
+    letterEl.innerHTML = letter.slice(0,idx+1).replace(/\n/g,'<br>') + '<span class="cursor"></span>';
+    idx++;
+    setTimeout(type, char==='\n' ? 300 : Math.random()*40+20);
+  } else {
+    letterEl.innerHTML = letter.replace(/\n/g,'<br>');
+    signEl.style.opacity = '1';
+  }
+}
+setTimeout(type, 1800);
+
+// ── Music ──
+let playing = false;
+function toggleMusic(){
+  const btn = document.getElementById('musicBtn');
+  const lbl = document.getElementById('musicLabel');
+  const audio = document.getElementById('audio');
+  playing = !playing;
+  if(playing){
+    // Since we can't load the actual song, we create a simple melody with Web Audio API
+    startWebAudio();
+    btn.classList.add('playing');
+    lbl.textContent = 'Playing — Main Tera Ho Gaya ♪';
+  } else {
+    stopWebAudio();
+    btn.classList.remove('playing');
+    lbl.textContent = 'Play — Main Tera Ho Gaya';
+  }
+}
+
+let audioCtx, osc1, osc2, gainNode, lfoNode, melodyInterval;
+const notes = [392,440,494,523,494,440,523,587,523,494,440,392,349,392,440,392];
+let noteIdx = 0;
+
+// function startWebAudio(){
+//   audioCtx = new (window.AudioContext||window.webkitAudioContext)();
+//   gainNode = audioCtx.createGain();
+//   gainNode.gain.setValueAtTime(0.18, audioCtx.currentTime);
+//   gainNode.connect(audioCtx.destination);
+
+//   function playNot\e(){
+//     if(!playing) return;
+//     const o = audioCtx.createOscillator();
+//     const g = audioCtx.createGain();
+//     o.type = 'sine';
+//     o.frequency.setValueAtTime(notes[noteIdx % notes.length], audioCtx.currentTime);
+//     g.gain.setValueAtTime(0.18, audioCtx.currentTime);
+//     g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.45);
+//     o.connect(g); g.connect(gainNode);
+//     o.start(); o.stop(audioCtx.currentTime + 0.45);
+//     noteIdx++;
+//     melodyInterval = setTimeout(playNote, 480);
+//   }
+//   playNote();
+// }
+
+// function stopWebAudio(){
+//   clearTimeout(melodyInterval);
+//   if(gainNode) gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
+//   if(audioCtx) audioCtx.close();
+// }
+
+// ── Fireworks ──
+const fwCanvas = document.getElementById('fw');
+const fwCtx = fwCanvas.getContext('2d');
+fwCanvas.width = window.innerWidth;
+fwCanvas.height = window.innerHeight;
+window.addEventListener('resize',()=>{ fwCanvas.width=window.innerWidth; fwCanvas.height=window.innerHeight; });
+
+const particles = [];
+const COLORS = ['#ff4d7e','#ffd700','#ff9ff3','#ffffff','#ffb3c6','#ff6b9d','#ffeaa7','#fd79a8'];
+
+function fireworkAt(x, y){
+  const count = 60 + Math.floor(Math.random()*40);
+  for(let i=0;i<count;i++){
+    const angle = (Math.PI*2/count)*i + Math.random()*0.3;
+    const speed = Math.random()*6+2;
+    particles.push({
+      x, y,
+      vx: Math.cos(angle)*speed,
+      vy: Math.sin(angle)*speed,
+      alpha: 1,
+      color: COLORS[Math.floor(Math.random()*COLORS.length)],
+      size: Math.random()*4+1,
+      gravity: 0.12
+    });
+  }
+  if(!animating) animate();
+}
+
+let animating = false;
+function animate(){
+  animating = true;
+  fwCtx.clearRect(0,0,fwCanvas.width,fwCanvas.height);
+  for(let i=particles.length-1;i>=0;i--){
+    const p = particles[i];
+    p.x += p.vx; p.y += p.vy;
+    p.vy += p.gravity;
+    p.vx *= 0.97; p.alpha -= 0.018;
+    if(p.alpha<=0){ particles.splice(i,1); continue; }
+    fwCtx.save();
+    fwCtx.globalAlpha = p.alpha;
+    fwCtx.fillStyle = p.color;
+    fwCtx.shadowBlur = 8;
+    fwCtx.shadowColor = p.color;
+    fwCtx.beginPath();
+    fwCtx.arc(p.x,p.y,p.size,0,Math.PI*2);
+    fwCtx.fill();
+    fwCtx.restore();
+  }
+  if(particles.length>0) requestAnimationFrame(animate);
+  else animating = false;
+}
+
+document.addEventListener('click', e=>{
+  if(e.target.closest('.music-btn')) return;
+  fireworkAt(e.clientX, e.clientY);
+  for(let i=0;i<3;i++){
+    const dx = (Math.random()-0.5)*120, dy = (Math.random()-0.5)*120;
+    setTimeout(()=>fireworkAt(e.clientX+dx, e.clientY+dy), i*120);
+  }
+});
+document.addEventListener('touchstart', e=>{
+  const t = e.touches[0];
+  if(e.target.closest('.music-btn')) return;
+  fireworkAt(t.clientX, t.clientY);
+  for(let i=0;i<3;i++){
+    const dx = (Math.random()-0.5)*120, dy = (Math.random()-0.5)*120;
+    setTimeout(()=>fireworkAt(t.clientX+dx, t.clientY+dy), i*120);
+  }
+},{passive:true});
+</script>
+</body>
+</html>
